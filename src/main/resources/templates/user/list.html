@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <title>회원 목록 - Admin Backoffice</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-black text-green-400 font-mono p-8 min-h-screen selection:bg-green-600 selection:text-black">
+
+<h1 class="text-4xl font-bold mb-8 tracking-widest border-b border-green-600 pb-4 select-none">MEMBER LIST</h1>
+
+<form method="get" th:action="@{/admin/users}" class="mb-6 flex items-center space-x-3">
+    <input
+            type="text"
+            name="keyword"
+            th:value="${keyword}"
+            placeholder="Search by username..."
+            class="bg-black border border-green-600 rounded px-3 py-2 w-72 placeholder-green-500 text-green-400 focus:outline-none focus:ring-2 focus:ring-green-500"
+            autocomplete="off"
+    />
+    <button
+            type="submit"
+            class="bg-green-700 hover:bg-green-600 text-black font-semibold rounded px-5 py-2 transition duration-150"
+    >
+        SEARCH
+    </button>
+</form>
+
+<div class="overflow-x-auto rounded border border-green-600 shadow-lg">
+    <table class="min-w-full table-fixed border-collapse border border-green-600">
+        <thead>
+        <tr class="bg-green-900 border-b border-green-600">
+            <th class="py-3 px-4 text-left text-sm uppercase tracking-wide select-none">ID</th>
+            <th class="py-3 px-4 text-left text-sm uppercase tracking-wide select-none">USERNAME</th>
+            <th class="py-3 px-4 text-left text-sm uppercase tracking-wide select-none">FULL NAME</th>
+            <th class="py-3 px-4 text-left text-sm uppercase tracking-wide select-none">EMAIL</th>
+            <th class="py-3 px-4 text-left text-sm uppercase tracking-wide select-none">STATUS</th>
+            <th class="py-3 px-4 text-left text-sm uppercase tracking-wide select-none">ROLE</th>
+            <th class="py-3 px-4 text-left text-sm uppercase tracking-wide select-none">CREATED AT</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+                th:each="user : ${userPage.content}"
+                class="border-b border-green-700 hover:bg-green-800 cursor-default select-text"
+        >
+            <td class="py-2 px-4 text-sm" th:text="${user.id}"></td>
+            <td class="py-2 px-4 text-sm" th:text="${user.username}"></td>
+            <td class="py-2 px-4 text-sm" th:text="${user.fullName}"></td>
+            <td class="py-2 px-4 text-sm truncate max-w-xs" th:text="${user.email}"></td>
+            <td class="py-2 px-4 text-sm font-semibold" th:text="${user.status}"></td>
+            <td class="py-2 px-4 text-sm font-semibold" th:text="${user.role}"></td>
+            <td class="py-2 px-4 text-sm" th:text="${#dates.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-6 flex justify-center space-x-3 select-none text-green-500 text-sm font-semibold">
+    <a
+            th:if="${userPage.hasPrevious()}"
+            th:href="@{|/admin/users?page=${userPage.number - 1}&keyword=${keyword}|}"
+            class="px-4 py-2 border border-green-600 rounded hover:bg-green-700 transition"
+    >
+        PREV
+    </a>
+    <span class="px-4 py-2 border border-green-800 rounded bg-green-900">
+            <span th:text="${userPage.number + 1}"></span>
+        </span>
+    <a
+            th:if="${userPage.hasNext()}"
+            th:href="@{|/admin/users?page=${userPage.number + 1}&keyword=${keyword}|}"
+            class="px-4 py-2 border border-green-600 rounded hover:bg-green-700 transition"
+    >
+        NEXT
+    </a>
+</div>
+
+</body>
+</html>
