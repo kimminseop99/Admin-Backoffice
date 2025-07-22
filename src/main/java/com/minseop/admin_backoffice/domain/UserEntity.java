@@ -1,4 +1,4 @@
-package domain;
+package com.minseop.admin_backoffice.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

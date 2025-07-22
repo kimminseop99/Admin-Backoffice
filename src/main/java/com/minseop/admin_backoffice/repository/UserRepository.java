@@ -1,6 +1,6 @@
-package repository;
+package com.minseop.admin_backoffice.repository;
 
-import domain.UserEntity;
+import com.minseop.admin_backoffice.domain.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

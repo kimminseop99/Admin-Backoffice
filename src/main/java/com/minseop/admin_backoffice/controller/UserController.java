@@ -1,6 +1,6 @@
-package controller;
+package com.minseop.admin_backoffice.controller;
 
-import domain.UserEntity;
+import com.minseop.admin_backoffice.domain.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import service.UserService;
+import com.minseop.admin_backoffice.service.UserService;
 import org.springframework.ui.Model;
 
 @Controller

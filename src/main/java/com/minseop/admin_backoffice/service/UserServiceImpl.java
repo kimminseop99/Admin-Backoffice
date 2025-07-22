@@ -1,13 +1,13 @@
-package service;
+package com.minseop.admin_backoffice.service;
 
-import domain.UserEntity;
+import com.minseop.admin_backoffice.domain.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import repository.UserRepository;
+import com.minseop.admin_backoffice.repository.UserRepository;
 
 import java.util.Optional;
 
