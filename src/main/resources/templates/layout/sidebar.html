@@ -1,4 +1,7 @@
-<aside class="bg-black text-green-400 font-mono w-64 min-h-screen border-r border-green-700 p-6 select-none">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<aside th:fragment="sidebar" class="bg-black text-green-400 font-mono w-64 min-h-screen border-r border-green-700 p-6 select-none">
     <nav class="flex flex-col space-y-4 text-sm">
         <a href="/admin" class="hover:text-green-500 transition font-semibold">대시보드</a>
         <a href="/admin/users" class="hover:text-green-500 transition font-semibold">회원 관리</a>
@@ -7,3 +10,5 @@
         <a href="/admin/settings" class="hover:text-green-500 transition font-semibold">설정</a>
     </nav>
 </aside>
+</body>
+</html>

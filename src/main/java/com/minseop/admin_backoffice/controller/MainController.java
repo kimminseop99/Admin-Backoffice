@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-    @GetMapping({"/", "/admin", "/admin/dashboard"})
+    @GetMapping({"/","/main", "/admin", "/admin/dashboard"})
     public String showDashboard(Model model) {
         model.addAttribute("pageTitle", "Admin Backoffice - Dashboard");
         // layouts/main.html의 content 영역에 삽입될 fragment 경로

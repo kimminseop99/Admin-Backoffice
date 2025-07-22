@@ -1,20 +1,16 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8" />
-    <title th:replace="${pageTitle} ?: 'Admin Backoffice'">Admin Backoffice</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet" />
-</head>
-<body class="bg-black text-green-400 font-mono min-h-screen flex flex-col">
-<div class="flex flex-1">
-    <div th:replace="fragments/sidebar :: sidebar"></div>
-    <div class="flex flex-col flex-grow">
-        <div th:replace="fragments/header :: header"></div>
-        <main class="p-8 flex-grow overflow-auto">
-            <div th:replace="${content}"></div>
-        </main>
-        <div th:replace="fragments/footer :: footer"></div>
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div>
+        <div class="flex">
+            <!-- sidebar 포함 -->
+            <div th:replace="layout/sidebar :: sidebar"></div>
+
+            <!-- 메인 콘텐츠 -->
+            <div class="flex-1 p-6">
+                <h1 class="text-2xl font-bold">대시보드</h1>
+            </div>
+        </div>
     </div>
 </div>
-</body>
+
 </html>

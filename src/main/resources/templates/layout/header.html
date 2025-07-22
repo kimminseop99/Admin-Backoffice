@@ -1,7 +1,11 @@
-<header class="bg-black text-green-400 font-mono flex items-center justify-between px-6 py-3 border-b border-green-700 select-none">
+
+
+<header th:fragment="headerFragment" class="bg-black text-green-400 font-mono flex items-center justify-between px-6 py-3 border-b border-green-700 select-none">
     <div class="text-xl font-bold tracking-widest">ADMIN BACKOFFICE</div>
     <nav class="flex items-center space-x-4">
         <span class="text-sm">관리자: <strong th:text="${#authentication.name}">admin</strong></span>
         <a href="/logout" class="text-green-600 hover:text-green-400 transition">로그아웃</a>
     </nav>
 </header>
+
+
