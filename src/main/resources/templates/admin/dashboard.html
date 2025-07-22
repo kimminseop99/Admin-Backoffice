@@ -1,13 +1,13 @@
-<div th:fragment="content">
+<div th:fragment="dashboard">
     <h1 class="text-4xl font-bold mb-8 tracking-widest border-b border-green-600 pb-4 select-none">DASHBOARD</h1>
     <section class="grid grid-cols-3 gap-6">
         <div class="bg-green-900 rounded p-6 shadow-lg">
             <h2 class="text-xl font-semibold mb-3">전체 회원 수</h2>
-            <p class="text-3xl">1234</p>
+            <p class="text-3xl" th:text="${totalUsers}">0</p>
         </div>
         <div class="bg-green-900 rounded p-6 shadow-lg">
             <h2 class="text-xl font-semibold mb-3">신규 가입자 (7일)</h2>
-            <p class="text-3xl">56</p>
+            <p class="text-3xl" th:text="${newUsersLast7Days}">0</p>
         </div>
         <div class="bg-green-900 rounded p-6 shadow-lg">
             <h2 class="text-xl font-semibold mb-3">시스템 상태</h2>

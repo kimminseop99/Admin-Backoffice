@@ -1,0 +1,52 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div class="min-h-screen flex flex-col items-center justify-center bg-black text-green-400 font-mono select-none">
+        <div class="bg-gray-900 rounded-lg shadow-lg p-8 w-full max-w-md border border-green-700">
+            <h2 class="text-3xl font-bold mb-6 tracking-widest text-green-400 text-center">회원가입</h2>
+
+            <form th:action="@{/user/signup}" th:object="${userSignupForm}" method="post" class="space-y-4">
+
+                <div>
+                    <label for="username" class="block mb-1 font-semibold">ID</label>
+                    <input type="text" th:field="*{username}" id="username" required
+                           class="w-full rounded-md border border-green-600 bg-black text-green-400 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-600" />
+                    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-red-500 text-sm mt-1"></div>
+                </div>
+
+                <div>
+                    <label for="fullName" class="block mb-1 font-semibold">이름</label>
+                    <input type="text" th:field="*{fullName}" id="fullName" required
+                           class="w-full rounded-md border border-green-600 bg-black text-green-400 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-600" />
+                    <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="text-red-500 text-sm mt-1"></div>
+                </div>
+
+                <div>
+                    <label for="email" class="block mb-1 font-semibold">이메일</label>
+                    <input type="email" th:field="*{email}" id="email" required
+                           class="w-full rounded-md border border-green-600 bg-black text-green-400 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-600" />
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 text-sm mt-1"></div>
+                </div>
+
+                <div>
+                    <label for="password1" class="block mb-1 font-semibold">비밀번호</label>
+                    <input type="password" th:field="*{password1}" id="password1" required
+                           class="w-full rounded-md border border-green-600 bg-black text-green-400 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-600" />
+                    <div th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" class="text-red-500 text-sm mt-1"></div>
+                </div>
+
+                <div>
+                    <label for="password2" class="block mb-1 font-semibold">비밀번호 확인</label>
+                    <input type="password" th:field="*{password2}" id="password2" required
+                           class="w-full rounded-md border border-green-600 bg-black text-green-400 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-600" />
+                    <div th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" class="text-red-500 text-sm mt-1"></div>
+                </div>
+
+                <button type="submit" class="w-full bg-green-700 hover:bg-green-600 text-black font-bold py-2 rounded-md transition">
+                    가입하기
+                </button>
+
+            </form>
+        </div>
+    </div>
+</div>
+</html>
