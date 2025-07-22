@@ -31,6 +31,6 @@ public class UserController {
 
         model.addAttribute("userPage", userPage);
         model.addAttribute("keyword", keyword);
-        return "user/user-list";
+        return "user/list";
     }
 }
