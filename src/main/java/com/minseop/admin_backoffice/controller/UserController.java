@@ -49,6 +49,7 @@ public class UserController {
 
         if (userService.findByEmail(form.getEmail()).isPresent()) {
             bindingResult.rejectValue("email", "duplicate", "이미 사용 중인 이메일입니다.");
+            return "user/signupForm";
         }
 
 

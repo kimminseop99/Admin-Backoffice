@@ -1,0 +1,70 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div class="min-h-screen bg-black text-green-400 font-mono px-6 py-8 max-w-2xl mx-auto">
+        <h1 class="text-2xl font-bold tracking-widest border-b border-green-700 pb-2 mb-6">회원 상세 정보</h1>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-semibold">ID</label>
+                <p class="text-green-200" th:text="${user.id}"></p>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold">아이디</label>
+                <p class="text-green-200" th:text="${user.username}"></p>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold">이메일</label>
+                <p class="text-green-200" th:text="${user.email}"></p>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold">이름</label>
+                <p class="text-green-200" th:text="${user.fullName}"></p>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold">가입일</label>
+                <p class="text-green-200" th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
+            </div>
+
+            <form th:action="@{'/admin/user/' + ${user.id} + '/update'}" method="post" class="space-y-4 mt-6">
+                <div>
+                    <label for="status" class="block text-sm font-semibold">회원 상태</label>
+                    <select name="status" id="status"
+                            class="w-full bg-black border border-green-600 text-green-200 rounded-md px-3 py-2">
+                        <option th:each="status : ${statuses}" th:value="${status}" th:text="${status}"
+                                th:selected="${status} == ${user.status}"></option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="role" class="block text-sm font-semibold">권한</label>
+                    <select name="role" id="role"
+                            class="w-full bg-black border border-green-600 text-green-200 rounded-md px-3 py-2">
+                        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"
+                                th:selected="${role} == ${user.role}"></option>
+                    </select>
+                </div>
+
+                <button type="submit"
+                        class="bg-green-700 hover:bg-green-600 text-black font-bold py-2 px-4 rounded-md w-full">
+                    수정 저장
+                </button>
+            </form>
+            <a href="/admin/user"
+               class="block text-center bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md w-full">
+                목록으로 돌아가기
+            </a>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('updated') === 'true') {
+            alert('회원 정보가 성공적으로 수정되었습니다.');
+            const newUrl = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, newUrl);
+        }
+        /*]]>*/
+    </script>
+</div>
+
+</html>

@@ -3,11 +3,11 @@
 <body>
 <aside th:fragment="sidebar" class="bg-black text-green-400 font-mono w-64 min-h-screen border-r border-green-700 p-6 select-none">
     <nav class="flex flex-col space-y-4 text-sm">
-        <a href="/admin" class="hover:text-green-500 transition font-semibold">대시보드</a>
-        <a href="/admin/users" class="hover:text-green-500 transition font-semibold">회원 관리</a>
-        <a href="/admin/products" class="hover:text-green-500 transition font-semibold">상품 관리</a>
-        <a href="/admin/orders" class="hover:text-green-500 transition font-semibold">주문 관리</a>
-        <a href="/admin/settings" class="hover:text-green-500 transition font-semibold">설정</a>
+        <a th:href="@{/admin}" class="hover:text-green-500 transition font-semibold">대시보드</a>
+        <a th:href="@{/admin/user}" class="hover:text-green-500 transition font-semibold">회원 관리</a>
+        <a th:href="@{/admin/products}" class="hover:text-green-500 transition font-semibold">상품 관리</a>
+        <a th:href="@{/admin/orders}" class="hover:text-green-500 transition font-semibold">주문 관리</a>
+        <a th:href="@{/admin/settings}" class="hover:text-green-500 transition font-semibold">설정</a>
     </nav>
 </aside>
 </body>
