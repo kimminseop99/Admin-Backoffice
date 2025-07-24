@@ -34,6 +34,8 @@
 <body class="flex flex-col min-h-screen">
 
 <header th:replace="~{layout/header :: headerFragment}"></header>
+
+<div th:replace="~{layout/sidebar :: sidebar}"></div>
 <!-- 각 페이지마다 들어가는 내용들 -->
 <div class="content-area flex-1">
     <th:block layout:fragment="content"></th:block>
@@ -41,6 +43,6 @@
 
 <footer th:replace="~{layout/footer :: footerFragment}"></footer>
 <!-- 기본 템플릿 안에 삽입될 내용 끝 -->
-
+<script th:src="@{/js/sidebar.js}"></script>
 </body>
 </html>
