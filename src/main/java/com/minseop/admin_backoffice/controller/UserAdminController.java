@@ -61,11 +61,21 @@ public class UserAdminController {
     public String updateUser(@PathVariable("id") Long id,
                              @RequestParam("status") UserStatus status,
                              @RequestParam("role") UserRole role) {
-        UserEntity user = userService.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setStatus(status);
-        user.setRole(role);
-        userService.saveUser(user);
+
+        UserEntity targetUser = userService.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // 현재 로그인한 관리자 정보
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserEntity currentAdmin = userService.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+        // 핵심 로직 호출: 상태/권한 변경 + 로그 기록
+        userService.updateUserStatusOrRole(targetUser, currentAdmin, status, role);
+
         return "redirect:/admin/user/" + id + "?updated=true";
     }
+
 }
 

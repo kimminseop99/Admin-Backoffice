@@ -1,7 +1,9 @@
 package com.minseop.admin_backoffice.service;
 
+import com.minseop.admin_backoffice.domain.AuditAction;
 import com.minseop.admin_backoffice.domain.UserEntity;
 import com.minseop.admin_backoffice.domain.UserRole;
+import com.minseop.admin_backoffice.domain.UserStatus;
 import com.minseop.admin_backoffice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
@@ -18,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-
+    private final AuditLogService auditLogService;
 
     public Page<UserEntity> findAllUsers(String searchKeyword, Pageable pageable) {
         if (searchKeyword == null || searchKeyword.isBlank()) {
@@ -78,5 +80,34 @@ public class UserService {
         }
         return userRepository.findByUsernameContainingIgnoreCaseAndRoleNotIn(searchKeyword, excludedRoles, pageable);
     }
+
+    public void updateUserStatusOrRole(UserEntity targetUser, UserEntity currentAdmin, UserStatus newStatus, UserRole newRole) {
+        if (targetUser.getStatus() != newStatus) {
+            auditLogService.logChange(
+                    currentAdmin.getId(),
+                    targetUser.getId(),
+                    AuditAction.STATUS_CHANGE,
+                    targetUser.getStatus().name(),
+                    newStatus.name(),
+                    currentAdmin.getUsername()
+            );
+            targetUser.setStatus(newStatus);
+        }
+
+        if (targetUser.getRole() != newRole) {
+            auditLogService.logChange(
+                    currentAdmin.getId(),
+                    targetUser.getId(),
+                    AuditAction.ROLE_CHANGE,
+                    targetUser.getRole().name(),
+                    newRole.name(),
+                    currentAdmin.getUsername()
+            );
+            targetUser.setRole(newRole);
+        }
+
+        userRepository.save(targetUser);
+    }
+
 
 }

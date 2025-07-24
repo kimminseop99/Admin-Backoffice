@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div class="p-6 font-mono text-green-400">
+        <h1 class="text-2xl font-bold mb-4">감사 로그 (Audit Logs)</h1>
+
+        <form method="get" class="mb-4 flex space-x-2">
+            <input type="number" name="targetUserId" th:value="${targetUserId}"
+                   placeholder="사용자 ID 필터"
+                   class="px-3 py-1 rounded border border-green-700 bg-black text-green-400" />
+            <button type="submit"
+                    class="px-3 py-1 bg-green-700 hover:bg-green-600 text-black rounded">검색</button>
+        </form>
+
+        <table class="min-w-full table-auto border border-green-600 text-sm">
+            <thead class="bg-green-900 text-green-200">
+            <tr>
+                <th class="border px-3 py-2">ID</th>
+                <th class="border px-3 py-2">대상 사용자</th>
+                <th class="border px-3 py-2">변경 유형</th>
+                <th class="border px-3 py-2">이전 값</th>
+                <th class="border px-3 py-2">변경 값</th>
+                <th class="border px-3 py-2">변경자</th>
+                <th class="border px-3 py-2">일시</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="log : ${logs.content}" class="hover:bg-green-950">
+                <td class="border px-3 py-1" th:text="${log.id}"></td>
+                <td class="border px-3 py-1" th:text="${log.targetUserId}"></td>
+                <td class="border px-3 py-1" th:text="${log.action}"></td>
+                <td class="border px-3 py-1" th:text="${log.beforeValue}"></td>
+                <td class="border px-3 py-1" th:text="${log.afterValue}"></td>
+                <td class="border px-3 py-1" th:text="${log.adminUsername}"></td>
+                <td class="border px-3 py-1" th:text="${#temporals.format(log.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:replace="~{layout/pagination :: pagination(${logs})}" class="mt-4"></div>
+    </div>
+</div>
+</html>
