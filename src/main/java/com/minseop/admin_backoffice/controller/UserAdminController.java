@@ -8,9 +8,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/user")
@@ -23,7 +29,20 @@ public class UserAdminController {
     public String listUsers(@RequestParam(value = "search", required = false) String search,
                             Pageable pageable,
                             Model model) {
-        Page<UserEntity> users = userService.findAllUsers(search, pageable);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        List<UserRole> excludedRoles = new ArrayList<>();
+
+        if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_SUPER_ADMIN"))) {
+            excludedRoles.add(UserRole.SUPER_ADMIN);
+        } else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            excludedRoles.add(UserRole.SUPER_ADMIN);
+            excludedRoles.add(UserRole.ADMIN);
+        }
+
+
+        Page<UserEntity> users = userService.findUsersExcludingRoles(search, pageable, excludedRoles);
         model.addAttribute("users", users);
         model.addAttribute("search", search);
         return "admin/user_list";

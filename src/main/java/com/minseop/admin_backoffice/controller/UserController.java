@@ -71,17 +71,4 @@ public class UserController {
         return "user/login";
     }
 
-    @GetMapping("/admin/users")
-    public String userList(
-            @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            Model model
-    ) {
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("createdAt").descending());
-        Page<UserEntity> userPage = userService.findAllUsers(keyword, pageable);
-
-        model.addAttribute("userPage", userPage);
-        model.addAttribute("keyword", keyword);
-        return "user/list";
-    }
 }
