@@ -1,0 +1,32 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div class="min-h-screen bg-black text-green-400 font-mono px-6 py-8 max-w-2xl mx-auto">
+
+        <h1 class="text-3xl font-bold tracking-widest mb-6 border-b border-green-700 pb-3">
+            <span th:text="${categoryRequest.id} != null ? '카테고리 수정' : '카테고리 등록'">카테고리 등록</span>
+        </h1>
+
+        <form th:action="@{${categoryRequest.id} != null ? '/admin/product-categories/edit/' + ${categoryRequest.id} : '/admin/product-categories/create'}"
+              th:object="${categoryRequest}" method="post" class="space-y-6">
+
+            <div>
+                <label for="name" class="block mb-1 font-semibold">카테고리명</label>
+                <input type="text" id="name" name="name" th:field="*{name}" required
+                       class="w-full bg-black border border-green-600 rounded-md px-3 py-2 text-green-400 focus:outline-none focus:ring-green-500"
+                       placeholder="카테고리명을 입력하세요" />
+                <p class="text-red-600 text-sm mt-1" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+            </div>
+
+            <div class="flex space-x-4">
+                <button type="submit" class="bg-green-700 hover:bg-green-600 text-black font-bold px-6 py-2 rounded-md">
+                    저장
+                </button>
+                <a href="/admin/product-categories" class="bg-gray-700 hover:bg-gray-600 text-green-400 font-bold px-6 py-2 rounded-md select-none">
+                    취소
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+</html>
