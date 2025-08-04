@@ -2,13 +2,16 @@
 <div layout:fragment="content">
     <div class="min-h-screen flex flex-col items-center justify-center bg-black text-green-400 font-mono select-none">
         <div class="bg-gray-900 rounded-lg shadow-lg p-8 w-full max-w-md border border-green-700">
+            <div th:if="${session.loginErrorMessage}">
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+                    alert([[${session.loginErrorMessage}]]);
+                    /*]]>*/
+                </script>
+            </div>
             <h2 class="text-3xl font-bold mb-6 tracking-widest text-green-400 text-center">로그인</h2>
 
             <form th:action="@{/user/login}" method="post" class="space-y-6">
-                <!-- 에러 메시지 -->
-                <div th:if="${param.error}" class="bg-red-800 text-red-400 text-sm p-3 rounded-md text-center">
-                    사용자ID 또는 비밀번호를 확인해 주세요.
-                </div>
 
                 <div>
                     <label for="username" class="block mb-1 font-semibold">사용자 ID</label>

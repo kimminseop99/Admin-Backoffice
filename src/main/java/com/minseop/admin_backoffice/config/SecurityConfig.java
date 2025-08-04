@@ -1,6 +1,7 @@
 package com.minseop.admin_backoffice.config;
 
 import com.minseop.admin_backoffice.security.CustomAccessDeniedHandler;
+import com.minseop.admin_backoffice.security.CustomAuthenticationFailureHandler;
 import com.minseop.admin_backoffice.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -37,8 +39,8 @@ public class SecurityConfig {
                                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/user/login")
-                        .defaultSuccessUrl("/", true)
-                        .failureUrl("/user/login?error=true"))
+                        .failureHandler(customAuthenticationFailureHandler)
+                        .defaultSuccessUrl("/", true))
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                         .logoutSuccessUrl("/user/login")
