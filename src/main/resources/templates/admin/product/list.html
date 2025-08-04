@@ -8,10 +8,10 @@
             <form method="get" class="flex space-x-2">
                 <input type="text" name="keyword" th:value="${keyword}" placeholder="상품명 검색"
                        class="bg-black border border-green-600 rounded-md px-3 py-1 focus:outline-none focus:ring-green-500" />
-                <select name="category" class="bg-black border border-green-600 rounded-md px-3 py-1 text-green-400">
-                    <option value="" th:selected="${category == null}">전체 카테고리</option>
+                <select name="categoryId" class="bg-black border border-green-600 rounded-md px-3 py-1 text-green-400">
+                    <option value="" th:selected="${categoryId == null}">전체 카테고리</option>
                     <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"
-                            th:selected="${cat.id == category}"></option>
+                            th:selected="${cat.id == categoryId}"></option>
                 </select>
                 <button type="submit" class="bg-green-700 hover:bg-green-600 text-black font-bold px-4 rounded-md">검색</button>
             </form>
@@ -33,7 +33,7 @@
                 <td class="px-4 py-2 border border-green-700" th:text="${prod.id}"></td>
                 <td class="px-4 py-2 border border-green-700" th:text="${prod.name}"></td>
                 <td class="px-4 py-2 border border-green-700" th:text="${prod.category.name}"></td>
-                <td class="px-4 py-2 border border-green-700 text-right" th:text="${#numbers.formatInteger(prod.price)} + ' 원'"></td>
+                <td class="px-4 py-2 border border-green-700 text-right" th:text="${T(java.lang.String).format('%,d원', prod.price)}"></td>
                 <td class="px-4 py-2 border border-green-700 text-right" th:text="${prod.stock}"></td>
                 <td class="px-4 py-2 border border-green-700 space-x-2 text-center">
                     <a th:href="@{'/admin/products/edit/' + ${prod.id}}" class="text-green-400 underline hover:text-green-200">수정</a>
@@ -54,7 +54,7 @@
         </div>
 
         <div class="mt-8">
-            <a href="/admin/products/create"
+            <a th:href="@{/admin/products/new}"
                class="inline-block bg-green-700 hover:bg-green-600 text-black font-bold px-6 py-2 rounded-md">
                 새 상품 등록
             </a>

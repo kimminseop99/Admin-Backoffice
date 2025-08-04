@@ -25,8 +25,8 @@ public class ProductController {
 
     // 상품 목록 조회 (페이징, 검색, 필터링)
     @GetMapping
-    public String listProducts(@RequestParam(required = false) String keyword,
-                               @RequestParam(required = false) Long categoryId,
+    public String listProducts(@RequestParam(value = "keyword",required = false) String keyword,
+                               @RequestParam(value = "categoryId",required = false) Long categoryId,
                                @PageableDefault(size = 10) Pageable pageable,
                                Model model) {
         Page<Product> page = productService.getProducts(keyword, categoryId, pageable);
@@ -59,8 +59,8 @@ public class ProductController {
     }
 
     // 상품 수정 폼
-    @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable Long id, Model model) {
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         model.addAttribute("categories", productService.getAllCategories());
@@ -68,8 +68,8 @@ public class ProductController {
     }
 
     // 상품 수정 처리
-    @PostMapping("/{id}/edit")
-    public String updateProduct(@PathVariable Long id,
+    @PostMapping("/edit/{id}")
+    public String updateProduct(@PathVariable("id") Long id,
                                 @Valid @ModelAttribute("product") Product product,
                                 BindingResult bindingResult,
                                 Model model) {
@@ -82,8 +82,8 @@ public class ProductController {
     }
 
     // 상품 삭제 처리
-    @PostMapping("/{id}/delete")
-    public String deleteProduct(@PathVariable Long id) {
+    @PostMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
         return "redirect:/admin/products";
     }

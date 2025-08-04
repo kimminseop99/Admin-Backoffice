@@ -35,4 +35,15 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_category_id")
     private ProductCategory category;
+
+    public Long getCategoryId() {
+        return category != null ? category.getId() : null;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        if (this.category == null) {
+            this.category = new ProductCategory();
+        }
+        this.category.setId(categoryId);
+    }
 }
