@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>계정 정지 안내</title>
+    <script>
+        alert("해당 계정은 정지되었습니다. 자세한 내용을 확인해주세요.");
+    </script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+<div class="min-h-screen flex flex-col items-center justify-center bg-black text-green-400 font-mono">
+    <div class="bg-gray-900 p-8 rounded-lg border border-green-700 shadow-lg w-full max-w-xl">
+        <h2 class="text-2xl font-bold mb-4 text-center text-red-500">접근이 제한된 계정입니다</h2>
+        <p class="mb-4 text-sm text-center">회원님의 계정은 관리자에 의해 정지(BAN) 처리되었습니다.</p>
+        <div class="bg-gray-800 p-4 rounded-md text-sm text-gray-300">
+            <p><strong>사용자 ID:</strong> <span th:text="${bannedUserId}"></span></p>
+            <p><strong>사유 확인 및 이의 제기:</strong></p>
+            <p class="mt-2">정책 위반에 대한 자세한 내용은 아래 이메일로 문의해주세요.</p>
+            <p class="mt-1">📧 <strong>admin@gmail.com</strong></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

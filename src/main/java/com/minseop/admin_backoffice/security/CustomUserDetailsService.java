@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 사용자입니다. username=" + username));
 
         if (user.getStatus() == UserStatus.BANNED) {
-            throw new LockedException("계정이 정지되었습니다.");
+            throw new LockedException("BANNED:" + user.getUsername());
         }
 
         if (user.getStatus() == UserStatus.INACTIVE) {
@@ -32,5 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return new CustomUserDetails(user);
     }
+
+
 
 }

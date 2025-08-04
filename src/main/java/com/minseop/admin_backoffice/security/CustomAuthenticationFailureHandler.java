@@ -19,25 +19,27 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     @Override
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
-                                        AuthenticationException exception)
-            throws IOException, ServletException {
+                                        AuthenticationException exception) throws IOException {
 
         String errorMessage = "아이디 또는 비밀번호가 잘못되었습니다.";
 
-        Throwable cause = exception.getCause();
-        if (cause instanceof LockedException) {
-            errorMessage = "계정이 정지되었습니다.";
-        } else if (cause instanceof DisabledException) {
-            errorMessage = "계정이 비활성화되어 있습니다.";
-        } else if (exception instanceof BadCredentialsException) {
-            errorMessage = "아이디 또는 비밀번호가 잘못되었습니다.";
+        String message = exception.getMessage();
+        if (message != null && message.startsWith("BANNED:")) {
+            String userId = message.substring("BANNED:".length());
+            request.getSession().setAttribute("bannedUserId", userId);
+
+            // 로그로 확인
+            System.out.println(">> banned 사용자 로그인 시도: " + userId);
+
+            // 리다이렉트
+            response.sendRedirect("/banned-info");
+            return;
         }
 
-        // 실패 메시지를 세션에 저장
         request.getSession().setAttribute("loginErrorMessage", errorMessage);
-
-        // 로그인 페이지로 리다이렉트
-        response.sendRedirect("/login?error");
+        response.sendRedirect("/user/login?error");
     }
+
+
 
 }
