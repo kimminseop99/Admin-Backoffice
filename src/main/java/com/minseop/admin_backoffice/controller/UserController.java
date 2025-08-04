@@ -4,6 +4,7 @@ import com.minseop.admin_backoffice.domain.UserEntity;
 import com.minseop.admin_backoffice.domain.UserRole;
 import com.minseop.admin_backoffice.domain.UserStatus;
 import com.minseop.admin_backoffice.dto.UserSignupForm;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -67,8 +68,13 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String loginPage(HttpServletRequest request, Model model) {
+
+        Object errorMessage = request.getSession().getAttribute("loginErrorMessage");
+        if (errorMessage != null) {
+            model.addAttribute("loginErrorMessage", errorMessage);
+            request.getSession().removeAttribute("loginErrorMessage");
+        }
         return "user/login";
     }
-
 }
