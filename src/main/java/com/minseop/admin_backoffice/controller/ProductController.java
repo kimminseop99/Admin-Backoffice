@@ -2,6 +2,7 @@ package com.minseop.admin_backoffice.controller;
 
 import com.minseop.admin_backoffice.domain.Product;
 import com.minseop.admin_backoffice.domain.ProductCategory;
+import com.minseop.admin_backoffice.service.FileStorageService;
 import com.minseop.admin_backoffice.service.ProductCategoryService;
 import com.minseop.admin_backoffice.service.ProductService;
 import jakarta.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final FileStorageService fileStorageService;
 
     // 상품 목록 조회 (페이징, 검색, 필터링)
     @GetMapping
@@ -42,6 +45,7 @@ public class ProductController {
     public String showCreateForm(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("categories", productService.getAllCategories());
+
         return "admin/product/form";
     }
 
@@ -49,10 +53,15 @@ public class ProductController {
     @PostMapping("/new")
     public String createProduct(@Valid @ModelAttribute("product") Product product,
                                 BindingResult bindingResult,
+                                @RequestParam("imageFile") MultipartFile imageFile,
                                 Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", productService.getAllCategories());
             return "admin/product/form";
+        }
+        if (!imageFile.isEmpty()) {
+            String filename = fileStorageService.store(imageFile);
+            product.setImageFilename(filename);
         }
         productService.createProduct(product);
         return "redirect:/admin/products";
@@ -72,10 +81,15 @@ public class ProductController {
     public String updateProduct(@PathVariable("id") Long id,
                                 @Valid @ModelAttribute("product") Product product,
                                 BindingResult bindingResult,
+                                @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
                                 Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", productService.getAllCategories());
             return "admin/product/form";
+        }
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String filename = fileStorageService.store(imageFile);
+            product.setImageFilename(filename);
         }
         productService.updateProduct(id, product);
         return "redirect:/admin/products";

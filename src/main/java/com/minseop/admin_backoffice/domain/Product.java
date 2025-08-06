@@ -29,8 +29,8 @@ public class Product {
     @Column(name = "product_stock", nullable = false)
     private int stock;
 
-    @Column(name = "product_image_url")
-    private String imageUrl;
+    @Column(name = "image_filename")
+    private String imageFilename;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_category_id")
