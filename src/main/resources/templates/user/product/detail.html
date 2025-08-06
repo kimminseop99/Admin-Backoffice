@@ -1,0 +1,59 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div class="max-w-5xl mx-auto p-6 bg-white shadow rounded-2xl mt-10">
+
+        <!-- 상품 정보 -->
+        <div class="flex space-x-6">
+            <img th:src="@{'/uploads/' + ${product.imageFilename}}" alt="상품 이미지"
+                 class="w-60 h-auto border border-gray-300 rounded" />
+            <div class="flex-1">
+                <h1 class="text-3xl font-semibold text-gray-800" th:text="${product.name}">상품명</h1>
+                <p class="text-gray-600 mt-2" th:text="${product.description}">설명</p>
+                <p class="text-xl font-bold text-green-600 mt-4" th:text="'₩ ' + ${product.price}">가격</p>
+            </div>
+        </div>
+
+        <!-- 리뷰 영역 -->
+        <div class="mt-10">
+            <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">리뷰</h2>
+
+            <div class="space-y-4">
+                <div th:each="review : ${reviews}" class="border border-gray-300 rounded p-4">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-sm text-gray-700 font-medium" th:text="${review.author.username}">작성자</span>
+                        <span class="text-sm text-gray-400" th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</span>
+                    </div>
+                    <p class="text-gray-800" th:text="${review.content}">리뷰 내용</p>
+
+                    <!-- 본인 리뷰인 경우 수정/삭제 버튼 -->
+                    <div th:if="${currentUser != null and review.author.id == currentUser.id}" class="mt-2 flex space-x-2">
+                        <a th:href="@{'/reviews/' + ${review.id} + '/edit'}"
+                           class="text-blue-500 hover:underline text-sm">수정</a>
+                        <a th:href="@{'/reviews/' + ${review.id} + '/delete'}"
+                           class="text-red-500 hover:underline text-sm">삭제</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 리뷰 작성 폼 -->
+        <div class="mt-10" th:if="${currentUser != null}">
+            <h3 class="text-xl font-semibold mb-2">리뷰 작성하기</h3>
+            <form method="post" th:action="@{'/reviews/create'}" class="space-y-4">
+                <input type="hidden" name="productId" th:value="${product.id}" />
+                <textarea name="content" rows="4" required
+                          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                          placeholder="리뷰 내용을 입력하세요..."></textarea>
+                <button type="submit"
+                        class="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">등록</button>
+            </form>
+        </div>
+
+        <!-- 로그인 안 한 경우 -->
+        <div th:if="${currentUser == null}" class="mt-6 text-gray-500">
+            로그인 후 리뷰를 작성할 수 있습니다.
+        </div>
+
+    </div>
+</div>
+</html>
