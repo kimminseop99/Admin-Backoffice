@@ -54,4 +54,18 @@ public class ReviewService {
         double sum = reviews.stream().mapToInt(Review::getRating).sum();
         return Math.round((sum / reviews.size()) * 10.0) / 10.0; // 소수점 한 자리 반올림
     }
+
+    public Long getProductIdByReviewId(Long id) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 리뷰를 찾을 수 없습니다. id=" + id));
+
+        return review.getProduct().getId();
+    }
+
+    public void deleteReview(Long id) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 리뷰를 찾을 수 없습니다. id=" + id));
+        reviewRepository.delete(review);
+    }
+
 }

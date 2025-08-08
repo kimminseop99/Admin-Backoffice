@@ -28,13 +28,13 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
         <div th:each="product : ${products.content}"
              class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mx-auto">
-            <a th:href="@{'/products/' + ${product.id}}">
+            <a th:href="@{'/user/products/' + ${product.id}}">
                 <img class="p-8 rounded-t-lg object-cover h-64 w-full"
                      th:src="@{'/uploads/' + ${product.imageFilename}}"
                      alt="상품 이미지" />
             </a>
             <div class="px-5 pb-5">
-                <a th:href="@{'/products/' + ${product.id}}">
+                <a th:href="@{'/user/products/' + ${product.id}}">
                     <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
                         th:text="${product.name}">상품 이름</h5>
                 </a>
