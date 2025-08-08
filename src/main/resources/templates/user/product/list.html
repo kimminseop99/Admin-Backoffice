@@ -65,9 +65,9 @@
                   th:text="|₩${#numbers.formatInteger(product.price, 3, 'COMMA')}|">
                 ₩가격
             </span>
-                    <a th:href="@{'/products/' + ${product.id}}"
+                    <a th:href="@{'/user/products/' + ${product.id}}"
                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        자세히 보기
+                        제품 보기
                     </a>
                 </div>
             </div>

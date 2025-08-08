@@ -36,6 +36,8 @@ public class Product {
     @JoinColumn(name = "product_category_id")
     private ProductCategory category;
 
+    private Double averageRating;
+
     public Long getCategoryId() {
         return category != null ? category.getId() : null;
     }

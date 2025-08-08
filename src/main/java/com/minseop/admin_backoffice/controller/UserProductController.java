@@ -41,21 +41,19 @@ public class UserProductController {
                               Model model) {
         Page<Product> page = productService.getProducts(keyword, categoryId, pageable);
 
-        Map<Long, Double> productRatingMap = page.getContent().stream()
-                .collect(Collectors.toMap(
-                        Product::getId,
-                        product -> reviewService.getAverageRatingByProductId(product.getId())
-                ));
+        page.getContent().forEach(product -> {
+            Double averageRating = reviewService.getAverageRatingByProductId(product.getId());
+            product.setAverageRating(averageRating);
+        });
 
         model.addAttribute("products", page);
         model.addAttribute("keyword", keyword);
         model.addAttribute("categoryId", categoryId);
         model.addAttribute("categories", productService.getAllCategories());
-        model.addAttribute("productRatingMap", productRatingMap);
         return "user/product/list";
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     public String showProductDetail(@PathVariable("id") Long id,
                                     Model model,
                                     @AuthenticationPrincipal UserDetails userDetails) {
