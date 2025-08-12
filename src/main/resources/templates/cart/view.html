@@ -1,0 +1,115 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content" class="bg-white dark:bg-gray-900 min-h-screen px-6 py-10">
+
+    <h1 class="text-3xl font-bold mb-8 text-gray-800 dark:text-white text-center">장바구니</h1>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700">
+            <thead class="text-xs uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-400">
+            <tr>
+                <th class="px-4 py-3 border border-gray-300 dark:border-gray-700">상품명</th>
+                <th class="px-4 py-3 border border-gray-300 dark:border-gray-700">수량</th>
+                <th class="px-4 py-3 border border-gray-300 dark:border-gray-700 w-28" style="white-space: nowrap;">가격</th>
+                <th class="px-4 py-3 border border-gray-300 dark:border-gray-700">삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
+                th:data-item-id="${item.id}" th:data-price="${item.product.price}">
+                <td th:text="${item.product.name}" class="px-4 py-3 border border-gray-300 dark:border-gray-700"></td>
+                <td class="px-4 py-3 border border-gray-300 dark:border-gray-700">
+                    <input type="number" min="1" class="cart-qty-input w-16 text-center border rounded-md"
+                           th:value="${item.quantity}">
+                </td>
+                <td class="px-4 py-3 border border-gray-300 dark:border-gray-700 font-semibold cart-item-total w-48"
+                    style="white-space: nowrap;"
+                    th:text="${#numbers.formatInteger(item.product.price * item.quantity, 3, 'COMMA')} + '원'"></td>
+
+                <td class="px-4 py-3 border border-gray-300 dark:border-gray-700">
+                    <form th:action="@{/cart/remove}" method="post" class="inline">
+                        <input type="hidden" name="cartItemId" th:value="${item.id}">
+                        <button type="submit"
+                                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs transition-all">
+                            삭제
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- 총합 & 주문 버튼 -->
+    <div class="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="text-lg font-semibold text-gray-800 dark:text-white">
+            총 금액: <span id="cart-total" th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA')}">0</span> 원
+        </div>
+
+        <div class="flex gap-3">
+            <a href="/user/products"
+               class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md transition-all text-sm">
+                계속 쇼핑하기
+            </a>
+            <form th:action="@{/order/create}" method="post">
+                <button type="submit"
+                        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-all text-sm">
+                    주문하기
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Ajax Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+     const qtyInputs = document.querySelectorAll(".cart-qty-input");
+
+     qtyInputs.forEach(input => {
+         input.addEventListener("change", function () {
+             const tr = input.closest("tr");
+             const itemId = tr.dataset.itemId;
+             const newQty = parseInt(input.value);
+
+             if (newQty < 1 || isNaN(newQty)) {
+                 alert("수량은 1 이상이어야 합니다.");
+                 input.value = 1;
+                 return;
+             }
+
+             fetch(`/cart/update`, {
+                 method: "POST",
+                 headers: {
+                     "Content-Type": "application/json",
+                     "X-CSRF-TOKEN": document.querySelector("meta[name='_csrf']").content
+                 },
+                 body: JSON.stringify({
+                     cartItemId: itemId,
+                     quantity: newQty
+                 })
+             })
+             .then(res => {
+                 if (!res.ok) throw new Error("서버 응답 에러");
+                 return res.json();
+             })
+             .then(data => {
+                 if (data && typeof data.itemTotal === 'number' && typeof data.cartTotal === 'number') {
+                     // 천 단위 콤마, 원 단위 붙임
+                     tr.querySelector(".cart-item-total").textContent = data.itemTotal.toLocaleString() + "원";
+                     document.getElementById("cart-total").textContent = data.cartTotal.toLocaleString();
+                 } else {
+                     alert("잘못된 응답 데이터입니다.");
+                 }
+             })
+             .catch(err => {
+                 console.error(err);
+                 alert("수량 변경 실패");
+             });
+         });
+     });
+ });
+
+    </script>
+
+</div>
+</html>

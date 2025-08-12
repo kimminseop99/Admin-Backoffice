@@ -38,4 +38,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             Pageable pageable
     );
 
+    @Query("SELECT u.id FROM UserEntity u WHERE u.username = :username")
+    Optional<Long> findUserIdByUsername(@Param("username") String username);
+
 }

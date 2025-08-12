@@ -115,4 +115,10 @@ public class UserService {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다: " + username));
     }
+
+    public Long getUserId(String username) {
+        return userRepository.findUserIdByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("사용자 ID를 찾을 수 없습니다."));
+    }
+
 }
