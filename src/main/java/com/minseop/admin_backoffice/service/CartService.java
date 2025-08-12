@@ -80,5 +80,13 @@ public class CartService {
                 .sum();
     }
 
+    @Transactional
+    public void clearCart(UserEntity user) {
+        Cart cart = getOrCreateCart(user);
+        List<CartItem> items = cart.getItems();
+        cartItemRepository.deleteAll(items);
+        items.clear();
+    }
+
 }
 

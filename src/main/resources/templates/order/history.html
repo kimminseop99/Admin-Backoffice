@@ -1,0 +1,32 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content" class="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg mt-10">
+
+  <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">주문 내역</h1>
+
+  <table class="w-full table-auto border-collapse border border-gray-300 dark:border-gray-700">
+    <thead>
+    <tr class="bg-gray-100 dark:bg-gray-700">
+      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2">주문번호</th>
+      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2">주문일</th>
+      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2">수령인</th>
+      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2">총 금액</th>
+      <th class="border border-gray-300 dark:border-gray-600 px-4 py-2">상세보기</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}" class="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-800 dark:even:bg-gray-700">
+      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2" th:text="${order.id}">1</td>
+      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2" th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}"></td>
+      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2" th:text="${order.recipientName}">홍길동</td>
+      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2" th:text="${#numbers.formatInteger(order.totalPrice, 3, 'COMMA')} + '원'"></td>
+      <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
+        <a th:href="@{'/order/detail/' + ${order.id}}" class="text-green-600 hover:underline">보기</a>
+      </td>
+    </tr>
+    <tr th:if="${orders.size() == 0}">
+      <td colspan="5" class="text-center py-4 text-gray-500 dark:text-gray-400">주문 내역이 없습니다.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</html>

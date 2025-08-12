@@ -1,0 +1,80 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content" class="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg mt-10">
+
+    <h1 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-100">주문서 작성</h1>
+
+    <form th:action="@{/order/create}" method="post" th:object="${orderForm}" class="space-y-6">
+
+        <!-- 주문 상품 리스트 -->
+        <div>
+            <h2 class="font-semibold mb-2 text-gray-700 dark:text-gray-300">주문 상품</h2>
+            <ul class="divide-y divide-gray-200 dark:divide-gray-700 max-h-64 overflow-y-auto">
+                <li th:each="item : ${cartItems}" class="py-2 flex items-center">
+                    <span class="flex-1 truncate" th:text="${item.product.name}">상품명</span>
+                    <span class="w-16 text-center" th:text="${item.quantity} + '개'">수량</span>
+                    <span class="w-24 text-right" th:text="${#numbers.formatInteger(item.product.price * item.quantity, 3, 'COMMA')} + '원'">가격</span>
+                </li>
+            </ul>
+
+            <div class="mt-4 text-right font-bold text-lg text-green-600 dark:text-green-400">
+                총 합계: <span th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA')} + '원'">0원</span>
+            </div>
+        </div>
+
+        <!-- 배송 정보 -->
+
+        <div>
+            <label for="recipientName" class="block text-gray-700 dark:text-gray-300 mb-1">받는 사람 이름</label>
+            <input type="text" id="recipientName" th:field="*{recipientName}" required
+                   class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2
+                   focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" />
+        </div>
+
+        <div>
+            <label for="recipientPhone" class="block text-gray-700 dark:text-gray-300 mb-1">전화번호</label>
+            <input type="tel" id="recipientPhone" th:field="*{recipientPhone}" required
+                   class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2
+                   focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" />
+        </div>
+
+        <div>
+            <label for="postcode" class="block text-gray-700 dark:text-gray-300 mb-1">우편번호</label>
+            <input type="text" id="postcode" th:field="*{postcode}" required
+                   class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2
+                   focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" />
+        </div>
+
+        <div>
+            <label for="deliveryAddress" class="block text-gray-700 dark:text-gray-300 mb-1">주소</label>
+            <input type="text" id="deliveryAddress" th:field="*{deliveryAddress}" required
+                   class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2
+                   focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" />
+        </div>
+
+        <div>
+            <label for="detailAddress" class="block text-gray-700 dark:text-gray-300 mb-1">상세주소</label>
+            <input type="text" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소를 입력하세요"
+                   class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2
+                   focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" />
+        </div>
+
+        <!-- 결제 수단 -->
+        <div>
+            <label for="paymentMethod" class="block text-gray-700 dark:text-gray-300 mb-1">결제 수단</label>
+            <select id="paymentMethod" th:field="*{paymentMethod}" required
+                    class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2
+                    focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white">
+                <option value="">선택하세요</option>
+                <option value="CARD">신용카드</option>
+                <option value="BANK_TRANSFER">무통장 입금</option>
+                <option value="MOBILE_PAY">휴대폰 결제</option>
+            </select>
+        </div>
+
+        <button type="submit"
+                class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded transition">
+            주문하기
+        </button>
+    </form>
+</div>
+</html>

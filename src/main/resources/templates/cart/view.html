@@ -51,12 +51,10 @@
                class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md transition-all text-sm">
                 계속 쇼핑하기
             </a>
-            <form th:action="@{/order/create}" method="post">
-                <button type="submit"
-                        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-all text-sm">
-                    주문하기
-                </button>
-            </form>
+            <a href="/order/form"
+               class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-all text-sm">
+                주문하기
+            </a>
         </div>
     </div>
 
