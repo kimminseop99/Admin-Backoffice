@@ -1,0 +1,64 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div class="min-h-screen bg-black text-green-400 font-mono px-6 py-8">
+        <!-- 헤더 + 검색 -->
+        <div class="mb-6 flex justify-between items-center border-b border-green-700 pb-2">
+            <h1 class="text-2xl font-bold tracking-widest">주문 목록</h1>
+            <form method="get" class="flex space-x-2">
+                <input type="text" name="search" th:value="${searchKeyword}" placeholder="유저명 검색"
+                       class="bg-black border border-green-600 rounded-md px-3 py-1 focus:outline-none focus:ring-green-500" />
+                <button type="submit" class="bg-green-700 hover:bg-green-600 text-black font-bold px-4 rounded-md">검색</button>
+            </form>
+        </div>
+
+        <!-- 주문 테이블 -->
+        <table class="w-full table-auto border border-green-700 text-sm">
+            <thead class="bg-green-900 text-left text-green-200">
+            <tr>
+                <th class="px-4 py-2 border border-green-700">주문번호</th>
+                <th class="px-4 py-2 border border-green-700">유저명</th>
+                <th class="px-4 py-2 border border-green-700">주문일</th>
+                <th class="px-4 py-2 border border-green-700">상품 종류 / 수량</th>
+                <th class="px-4 py-2 border border-green-700">총액</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders.content}" class="hover:bg-green-950">
+                <!-- 주문번호 -->
+                <td class="px-4 py-2 border border-green-700" th:text="${order.id}"></td>
+
+                <!-- 유저명 -->
+                <td class="px-4 py-2 border border-green-700" th:text="${order.user.username}"></td>
+
+                <!-- 주문일 -->
+                <td class="px-4 py-2 border border-green-700"
+                    th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}"></td>
+
+                <!-- 상품 종류 / 수량 -->
+                <td class="px-4 py-2 border border-green-700">
+                    <div th:text="'상품 종류: ' + ${order.orderItems.size()} + '종'"></div>
+                    <ul class="list-disc list-inside">
+                        <li th:each="item : ${order.orderItems}"
+                            th:text="${item.product.name} + ' x ' + ${item.quantity}"></li>
+                    </ul>
+                </td>
+
+                <!-- 총액 -->
+                <td class="px-4 py-2 border border-green-700 text-right"
+                    th:text="${#numbers.formatInteger(order.totalPrice, 3, 'COMMA')} + '원'"></td>
+            </tr>
+
+            <!-- 데이터 없을 때 -->
+            <tr th:if="${orders.totalElements == 0}">
+                <td colspan="5" class="text-center py-4 text-green-300">주문이 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 페이지네이션 -->
+        <div class="mt-6 text-center">
+            <div th:replace="~{layout/pagination :: pagination(${orders})}"></div>
+        </div>
+    </div>
+</div>
+</html>

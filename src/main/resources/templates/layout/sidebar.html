@@ -7,6 +7,7 @@
         <a th:href="@{/admin/user}" sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" class="hover:text-green-500 transition font-semibold">회원 관리</a>
         <a th:href="@{/audit/logs}" sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" class="hover:text-green-500 transition font-semibold">회원관리 로그</a>
         <a th:href="@{/admin/products}" sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" class="hover:text-green-500 transition font-semibold">상품 관리</a>
+        <a th:href="@{/admin/user/orderList}" sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" class="hover:text-green-500 transition font-semibold">회원 주문 목록</a>
 
         <a th:href="@{/user/products}" sec:authorize="hasRole('USER')" class="hover:text-green-500 transition font-semibold">상품 목록</a>
         <a th:href="@{/cart/view}" sec:authorize="hasRole('USER')" class="hover:text-green-500 transition font-semibold">장바구니</a>

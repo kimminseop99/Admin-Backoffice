@@ -1,8 +1,10 @@
 package com.minseop.admin_backoffice.controller;
 
+import com.minseop.admin_backoffice.domain.Order;
 import com.minseop.admin_backoffice.domain.UserEntity;
 import com.minseop.admin_backoffice.domain.UserRole;
 import com.minseop.admin_backoffice.domain.UserStatus;
+import com.minseop.admin_backoffice.service.OrderService;
 import com.minseop.admin_backoffice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserAdminController {
     private final UserService userService;
+    private final OrderService orderService;
 
 
     @GetMapping
@@ -75,6 +78,16 @@ public class UserAdminController {
         userService.updateUserStatusOrRole(targetUser, currentAdmin, status, role);
 
         return "redirect:/admin/user/" + id + "?updated=true";
+    }
+
+    @GetMapping("/orderList")
+    public String getOrderList(@RequestParam(value = "search", required = false) String searchKeyword,
+                               Pageable pageable,
+                               Model model) {
+        Page<Order> orders = orderService.findOrdersByUserKeyword(searchKeyword, pageable);
+        model.addAttribute("orders", orders);
+        model.addAttribute("searchKeyword", searchKeyword);
+        return "admin/user_orderList";
     }
 
 }

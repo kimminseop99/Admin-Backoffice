@@ -5,6 +5,8 @@ import com.minseop.admin_backoffice.dto.OrderForm;
 import com.minseop.admin_backoffice.repository.OrderRepository;
 import com.minseop.admin_backoffice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
@@ -89,5 +91,7 @@ public class OrderService {
                 .orElse(null);
     }
 
-
+    public Page<Order> findOrdersByUserKeyword(String searchKeyword, Pageable pageable) {
+        return orderRepository.findOrdersByUsernameContaining(searchKeyword, pageable);
+    }
 }
