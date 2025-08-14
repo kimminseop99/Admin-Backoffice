@@ -89,4 +89,15 @@ public class ProductService {
         return productCategoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("카테고리가 존재하지 않습니다."));
     }
+
+    public Product getRandomProductByCategory(Long categoryId) {
+        List<Product> products = productRepository.findRandomProductByCategory(categoryId, PageRequest.of(0, 1));
+        return products.isEmpty() ? null : products.get(0);
+    }
+
+    public List<Product> getTopRatedProducts(int i) {
+        return productRepository.findAll(
+                PageRequest.of(0, i, Sort.by(Sort.Direction.DESC, "averageRating"))
+        ).getContent();
+    }
 }

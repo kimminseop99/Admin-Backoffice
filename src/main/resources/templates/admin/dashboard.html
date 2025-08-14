@@ -1,4 +1,6 @@
-<div th:fragment="dashboard" sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" class="px-6 py-8 bg-gray-900 min-h-screen text-green-100">
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div th:fragment="dashboard" sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" class="px-6 py-8 bg-gray-900 min-h-screen text-green-100">
     <h1 class="text-3xl lg:text-4xl font-bold mb-10 tracking-widest border-b border-green-700 pb-4">
         관리자 대시보드
     </h1>
@@ -35,3 +37,5 @@
         </div>
     </section>
 </div>
+</div>
+</html>

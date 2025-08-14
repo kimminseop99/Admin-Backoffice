@@ -55,4 +55,8 @@ public class ProductCategoryService {
         ProductCategory existing = findById(id);
         productCategoryRepository.delete(existing);
     }
+
+    public List<ProductCategory> getAllCategories() {
+        return productCategoryRepository.findAll();
+    }
 }
