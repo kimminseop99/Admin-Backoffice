@@ -41,6 +41,8 @@ public class OrderController {
                 .mapToInt(i -> i.getProduct().getPrice() * i.getQuantity())
                 .sum();
 
+
+        model.addAttribute("tossClientKey", "test_ck_GjLJoQ1aVZbMXDBleB4lVw6KYe2R");
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("orderForm", new OrderForm());
@@ -82,6 +84,7 @@ public class OrderController {
             int totalPrice = cartItems.stream()
                     .mapToInt(i -> i.getProduct().getPrice() * i.getQuantity())
                     .sum();
+
 
             model.addAttribute("cartItems", cartItems);
             model.addAttribute("totalPrice", totalPrice);

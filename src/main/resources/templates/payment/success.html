@@ -1,0 +1,9 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h1>결제 성공</h1>
+<p>주문번호: <span th:text="${orderId}"></span></p>
+<p>결제금액: <span th:text="${amount}"></span> 원</p>
+<p>결제수단: <span th:text="${paymentMethod}"></span></p>
+<p>승인일시: <span th:text="${approvedAt}"></span></p>
+</body>
+</html>

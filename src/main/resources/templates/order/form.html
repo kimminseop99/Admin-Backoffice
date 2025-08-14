@@ -59,6 +59,12 @@
         </div>
 
         <!-- 결제 수단 (tosspay 추가 필요함)-->
+
+        <button type="button" id="btn_toss_pay"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition">
+            토스페이 결제
+        </button>
+
         <div>
             <label for="paymentMethod" class="block text-gray-700 dark:text-gray-300 mb-1">결제 수단</label>
             <select id="paymentMethod" th:field="*{paymentMethod}" required
@@ -77,4 +83,25 @@
         </button>
     </form>
 </div>
+<script src="https://js.tosspayments.com/v1/payment"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener("DOMContentLoaded", function () {
+        const clientKey = /*[[${tossClientKey}]]*/ '';
+        const tossPayments = TossPayments(clientKey);
+
+        document.getElementById("btn_toss_pay").addEventListener("click", function () {
+            tossPayments.requestPayment("카드", {
+                amount: /*[[${totalPrice}]]*/ 0,
+                orderId: "ORDER-" + new Date().getTime(),
+                orderName: "상품 결제",
+                customerName: document.getElementById("recipientName").value,
+                successUrl: window.location.origin + "/payment/success",
+                failUrl: window.location.origin + "/payment/fail"
+            });
+        });
+    });
+    /*]]>*/
+</script>
+
 </html>
