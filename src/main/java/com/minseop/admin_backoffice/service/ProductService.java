@@ -91,13 +91,11 @@ public class ProductService {
     }
 
     public Product getRandomProductByCategory(Long categoryId) {
-        List<Product> products = productRepository.findRandomProductByCategory(categoryId, PageRequest.of(0, 1));
+        List<Product> products = productRepository.findRandomProductByCategory(categoryId, PageRequest.of(0,1));
         return products.isEmpty() ? null : products.get(0);
     }
 
-    public List<Product> getTopRatedProducts(int i) {
-        return productRepository.findAll(
-                PageRequest.of(0, i, Sort.by(Sort.Direction.DESC, "averageRating"))
-        ).getContent();
+    public List<Product> getTopRatedProducts(int limit) {
+        return productRepository.findAll(PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC,"averageRating"))).getContent();
     }
 }

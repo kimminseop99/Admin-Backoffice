@@ -42,17 +42,18 @@ public class MainController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/")
     public String showMainPage(Model model) {
+
         List<ProductCategory> categories = productCategoryService.getAllCategories();
         Map<ProductCategory, Product> randomProducts = new HashMap<>();
 
         for (ProductCategory category : categories) {
             Product randomProduct = productService.getRandomProductByCategory(category.getId());
-            if (randomProduct != null) {
+            if(randomProduct != null) {
                 randomProducts.put(category, randomProduct);
             }
         }
 
-        List<Product> topRatedProducts = productService.getTopRatedProducts(8); // 평점 높은 상품 8개
+        List<Product> topRatedProducts = productService.getTopRatedProducts(8);
 
         model.addAttribute("randomProducts", randomProducts);
         model.addAttribute("topRatedProducts", topRatedProducts);
