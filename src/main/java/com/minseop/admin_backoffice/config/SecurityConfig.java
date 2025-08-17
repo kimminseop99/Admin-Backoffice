@@ -2,6 +2,7 @@ package com.minseop.admin_backoffice.config;
 
 import com.minseop.admin_backoffice.security.CustomAccessDeniedHandler;
 import com.minseop.admin_backoffice.security.CustomAuthenticationFailureHandler;
+import com.minseop.admin_backoffice.security.CustomAuthenticationSuccessHandler;
 import com.minseop.admin_backoffice.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
-    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -40,7 +41,7 @@ public class SecurityConfig {
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/user/login")
                         .failureHandler(customAuthenticationFailureHandler)
-                        .defaultSuccessUrl("/", true))
+                        .successHandler(customAuthenticationSuccessHandler))
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                         .logoutSuccessUrl("/user/login")

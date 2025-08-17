@@ -3,54 +3,22 @@
 
     <div sec:authorize="hasRole('USER')">
 
-        <!-- Hero Section -->
-        <section class="relative w-full h-screen overflow-hidden">
-            <div class="swiper hero-swiper w-full h-full">
-                <div class="swiper-wrapper">
-                    <!-- 슬라이드 1 -->
-                    <div class="swiper-slide relative">
-                        <img src="/images/물잔.png" class="w-full h-full object-cover"/>
-                        <div class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-40 px-4 text-center">
-                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">Luxury Collection</h1>
-                            <p class="text-lg sm:text-xl lg:text-2xl mb-6">Experience the finest beverages</p>
-                            <a href="#categories"
-                               class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded font-semibold transition">Shop Now</a>
-                        </div>
-                    </div>
-
-                    <!-- 슬라이드 2 -->
-                    <div class="swiper-slide relative">
-                        <img src="/images/음료.png" class="w-full h-full object-cover"/>
-                        <div class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-40 px-4 text-center">
-                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">Refreshing Taste</h1>
-                            <p class="text-lg sm:text-xl lg:text-2xl mb-6">Discover our premium drinks</p>
-                            <a href="#categories"
-                               class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded font-semibold transition">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Swiper Pagination & Navigation -->
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
-        </section>
-
         <!-- Category Random Products -->
         <section id="categories" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl sm:text-4xl font-bold mb-10 text-center">Explore Categories</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div th:each="entry : ${randomProducts.entrySet()}"
-                     class="category-product opacity-0 transform -translate-x-12 transition duration-700 rounded-lg overflow-hidden bg-gray-800 shadow-lg hover:scale-105 hover:shadow-2xl">
-                    <img th:src="@{'/uploads/' + ${entry.value.imageFilename}}" alt="" class="w-full h-64 object-cover"/>
+                <a th:each="entry : ${randomProducts.entrySet()}"
+                   th:href="@{'/user/products/' + ${entry.value.id}}"
+                   class="block rounded-lg overflow-hidden border border-gray-700 bg-gray-800 hover:border-green-500">
+                    <img th:src="@{'/uploads/' + ${entry.value.imageFilename}}" alt=""
+                         class="w-full h-64 object-cover"/>
                     <div class="p-4">
                         <h3 class="text-xl font-semibold mb-2 truncate" th:text="${entry.key.name}">Category Name</h3>
                         <p class="text-lg font-bold text-green-400 mb-2"
                            th:text="${#numbers.formatInteger(entry.value.price,3,'COMMA')} + '원'">0원</p>
                         <p class="text-gray-300 truncate" th:text="${entry.value.description}">상품 설명</p>
                     </div>
-                </div>
+                </a>
             </div>
         </section>
 
@@ -58,49 +26,21 @@
         <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl sm:text-4xl font-bold mb-10 text-center">Best Sellers</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div th:each="product : ${topRatedProducts}"
-                     class="top-product opacity-0 transform translate-y-10 transition duration-700 rounded-lg overflow-hidden bg-gray-800 shadow-lg hover:scale-105 hover:shadow-2xl">
-                    <img th:src="@{'/uploads/' + ${product.imageFilename}}" alt="" class="w-full h-48 sm:h-56 object-cover"/>
+                <a th:each="product : ${topRatedProducts}"
+                   th:href="@{'/user/products/' + ${product.id}}"
+                   class="block rounded-lg overflow-hidden border border-gray-700 bg-gray-800 hover:border-green-500">
+                    <img th:src="@{'/uploads/' + ${product.imageFilename}}" alt=""
+                         class="w-full h-48 sm:h-56 object-cover"/>
                     <div class="p-4">
                         <h3 class="text-lg font-semibold mb-1 truncate" th:text="${product.name}">Product Name</h3>
                         <p class="text-green-400 font-bold text-lg"
                            th:text="${#numbers.formatInteger(product.price,3,'COMMA')} + '원'">0원</p>
                     </div>
-                </div>
+                </a>
             </div>
         </section>
 
     </div>
 </div>
 
-<!-- Swiper.js CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-        // Intersection Observer for smooth scroll animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting){
-                    entry.target.classList.remove('opacity-0','-translate-x-12','translate-y-10');
-                    entry.target.classList.add('opacity-100','translate-x-0','translate-y-0');
-                }
-            });
-        }, { threshold: 0.3 });
-
-        document.querySelectorAll('.category-product, .top-product').forEach(el => observer.observe(el));
-
-        // Hero Swiper
-        const swiper = new Swiper(".hero-swiper", {
-            loop: true,
-            effect: "fade",
-            autoplay: { delay: 5000, disableOnInteraction: false },
-            pagination: { el: ".swiper-pagination", clickable: true },
-            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
-        });
-
-    });
-</script>
 </html>
