@@ -3,10 +3,7 @@ package com.minseop.admin_backoffice.controller;
 import com.minseop.admin_backoffice.domain.Product;
 import com.minseop.admin_backoffice.domain.Review;
 import com.minseop.admin_backoffice.domain.UserEntity;
-import com.minseop.admin_backoffice.service.FileStorageService;
-import com.minseop.admin_backoffice.service.ProductService;
-import com.minseop.admin_backoffice.service.ReviewService;
-import com.minseop.admin_backoffice.service.UserService;
+import com.minseop.admin_backoffice.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +27,7 @@ import java.util.stream.Collectors;
 public class UserProductController {
 
     private final ProductService productService;
-    private final FileStorageService fileStorageService;
+    private final OrderService orderService;
     private final UserService userService;
     private final ReviewService reviewService;
 
@@ -61,11 +58,18 @@ public class UserProductController {
         List<Review> reviewList = reviewService.getReviewsByProduct(product);
         model.addAttribute("reviews", reviewList);
 
-        // 현재 로그인 유저 정보
+        boolean canWriteReview = false;
         if (userDetails != null) {
             UserEntity user = userService.getUserByUsername(userDetails.getUsername());
             model.addAttribute("currentUser", user);
+
+            boolean hasPurchased = orderService.hasUserPurchasedProduct(user.getId(), product.getId());
+            boolean alreadyReviewed = reviewService.existsByAuthorIdAndProductId(user.getId(), product.getId());
+
+            // 구매했으면서 아직 리뷰 작성 안했으면 작성 가능
+            canWriteReview = hasPurchased && !alreadyReviewed;
         }
+        model.addAttribute("canWriteReview", canWriteReview);
 
         return "user/product/detail";
     }

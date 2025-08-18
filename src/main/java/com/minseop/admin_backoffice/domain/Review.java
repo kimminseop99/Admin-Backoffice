@@ -5,14 +5,20 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reviews")
+@Table(
+        name = "reviews",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"product_id", "author_id"})
+        }
+)
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Review {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -22,11 +28,14 @@ public class Review {
 
     private int rating; // 1~5
 
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private UserEntity author; 
+    @JoinColumn(name = "author_id", nullable = false)
+    private UserEntity author;
 }
+

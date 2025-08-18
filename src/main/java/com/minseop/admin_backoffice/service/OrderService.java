@@ -27,6 +27,7 @@ public class OrderService {
     @Transactional
     public void createOrder(UserEntity user, OrderForm orderForm) {
 
+
         // 장바구니 아이템 조회
         List<CartItem> cartItems = cartService.getCartItems(user);
         if (cartItems.isEmpty()) {
@@ -93,5 +94,10 @@ public class OrderService {
 
     public Page<Order> findOrdersByUserKeyword(String searchKeyword, Pageable pageable) {
         return orderRepository.findOrdersByUsernameContaining(searchKeyword, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean hasUserPurchasedProduct(Long userId, Long productId) {
+        return orderRepository.existsByUserIdAndProductId(userId, productId);
     }
 }

@@ -3,6 +3,7 @@ package com.minseop.admin_backoffice.service;
 import com.minseop.admin_backoffice.domain.Product;
 import com.minseop.admin_backoffice.domain.Review;
 import com.minseop.admin_backoffice.domain.UserEntity;
+import com.minseop.admin_backoffice.repository.OrderRepository;
 import com.minseop.admin_backoffice.repository.ProductRepository;
 import com.minseop.admin_backoffice.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
 
     // 상품별 리뷰 조회
     public List<Review> getReviewsByProduct(Product product) {
@@ -37,9 +39,21 @@ public class ReviewService {
         return Math.round(avg * 10.0) / 10.0; // 소수점 한 자리 반올림
     }
 
+
     // ⭐ 리뷰 생성 + 평균 평점 갱신
     @Transactional
     public Review createReview(Product product, UserEntity author, String title, String content, int rating) {
+        // 이미 리뷰 작성 여부 확인
+        if (reviewRepository.existsByAuthorIdAndProductId(author.getId(), product.getId())) {
+            throw new IllegalStateException("이미 이 상품에 리뷰를 작성했습니다.");
+        }
+
+        // 구매 내역 검증
+        boolean hasPurchased = orderRepository.existsByUserIdAndProductId(author.getId(), product.getId());
+        if (!hasPurchased) {
+            throw new IllegalStateException("구매한 상품에만 리뷰를 작성할 수 있습니다.");
+        }
+
         Review review = Review.builder()
                 .product(product)
                 .author(author)
@@ -91,4 +105,7 @@ public class ReviewService {
         return review.getProduct().getId();
     }
 
+    public boolean existsByAuthorIdAndProductId(Long authorId, Long productId) {
+        return reviewRepository.existsByAuthorIdAndProductId(authorId, productId);
+    }
 }

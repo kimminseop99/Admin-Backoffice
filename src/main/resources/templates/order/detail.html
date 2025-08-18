@@ -42,7 +42,9 @@
             </thead>
             <tbody>
             <tr th:each="item : ${order.orderItems}" class="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-800 dark:even:bg-gray-700">
-                <td class="border border-gray-300 dark:border-gray-600 px-4 py-2" th:text="${item.product.name}">상품명</td>
+                <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">
+                    <a th:href="@{'/user/products/' + ${item.product.id}}" class="text-blue-600 hover:underline" th:text="${item.product.name}">상품명</a>
+                </td>
                 <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center" th:text="${item.quantity} + '개'">1개</td>
                 <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-right" th:text="${#numbers.formatInteger(item.product.price * item.quantity, 3, 'COMMA')} + '원'">10,000원</td>
             </tr>

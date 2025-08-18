@@ -19,6 +19,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT o FROM Order o " +
             "JOIN FETCH o.user u " +
-            "WHERE (:searchKeyword IS NULL OR LOWER(u.username) LIKE LOWER(CONCAT('%', :searchKeyword, '%')))")
+            "WHERE (:searchKeyword IS NULL OR LOWER(u.username) LIKE LOWER(CONCAT('%', :searchKeyword, '%'))) " +
+            "ORDER BY o.orderDate DESC")
     Page<Order> findOrdersByUsernameContaining(@Param("searchKeyword") String searchKeyword, Pageable pageable);
+
+
+    @Query("SELECT CASE WHEN COUNT(oi) > 0 THEN true ELSE false END " +
+            "FROM Order o JOIN o.orderItems oi " +
+            "WHERE o.user.id = :userId AND oi.product.id = :productId")
+    boolean existsByUserIdAndProductId(@Param("userId") Long userId,
+                                       @Param("productId") Long productId);
 }
