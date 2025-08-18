@@ -35,16 +35,12 @@ public class UserProductController {
     private final ReviewService reviewService;
 
     @GetMapping
-    public String productList(@RequestParam(value = "keyword",required = false) String keyword,
-                              @RequestParam(value = "categoryId",required = false) Long categoryId,
+    public String productList(@RequestParam(value = "keyword", required = false) String keyword,
+                              @RequestParam(value = "categoryId", required = false) Long categoryId,
                               @PageableDefault(size = 10) Pageable pageable,
                               Model model) {
-        Page<Product> page = productService.getProducts(keyword, categoryId, pageable);
 
-        page.getContent().forEach(product -> {
-            Double averageRating = reviewService.getAverageRatingByProductId(product.getId());
-            product.setAverageRating(averageRating);
-        });
+        Page<Product> page = productService.getProducts(keyword, categoryId, pageable);
 
         model.addAttribute("products", page);
         model.addAttribute("keyword", keyword);
@@ -52,6 +48,7 @@ public class UserProductController {
         model.addAttribute("categories", productService.getAllCategories());
         return "user/product/list";
     }
+
 
     @GetMapping("/{id}")
     public String showProductDetail(@PathVariable("id") Long id,
@@ -61,7 +58,7 @@ public class UserProductController {
         model.addAttribute("product", product);
 
         // 리뷰 목록
-        List<Review> reviewList = reviewService.getReviewsByProductId(id);
+        List<Review> reviewList = reviewService.getReviewsByProduct(product);
         model.addAttribute("reviews", reviewList);
 
         // 현재 로그인 유저 정보
@@ -72,5 +69,6 @@ public class UserProductController {
 
         return "user/product/detail";
     }
+
 
 }

@@ -4,6 +4,7 @@ import com.minseop.admin_backoffice.domain.Product;
 import com.minseop.admin_backoffice.domain.ProductCategory;
 import com.minseop.admin_backoffice.repository.ProductCategoryRepository;
 import com.minseop.admin_backoffice.repository.ProductRepository;
+import com.minseop.admin_backoffice.repository.ReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductCategoryRepository productCategoryRepository;
+    private final ReviewRepository reviewRepository;
 
     // 상품 등록
     public Product createProduct(Product product) {
@@ -111,5 +113,21 @@ public class ProductService {
                 .toList();
     }
 
+
+    @Transactional
+    public void updateAverageRating(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("상품을 찾을 수 없습니다."));
+
+        List<Integer> ratings = reviewRepository.findByProduct(product)
+                .stream()
+                .map(review -> review.getRating())
+                .toList();
+
+        double avg = ratings.isEmpty() ? 0.0 : ratings.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+        product.setAverageRating(avg);
+
+        productRepository.save(product);
+    }
 
 }
