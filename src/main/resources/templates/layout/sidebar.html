@@ -10,6 +10,10 @@
         <a th:href="@{/admin/user/orderList}" sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" class="hover:text-green-500 transition font-semibold">회원 주문 목록</a>
 
         <a th:href="@{/user/products}" sec:authorize="hasRole('USER')" class="hover:text-green-500 transition font-semibold">상품 목록</a>
+        <a th:href="@{/user/update}" sec:authorize="hasRole('USER')"
+           class="hover:text-green-500 transition font-semibold">
+            회원 정보 수정
+        </a>
         <a th:href="@{/cart/view}" sec:authorize="hasRole('USER')" class="hover:text-green-500 transition font-semibold">장바구니</a>
         <a th:href="@{/order/history}" sec:authorize="hasRole('USER')" class="hover:text-green-500 transition font-semibold">주문 목록</a>
         <a th:href="@{/user/logout}" class="text-green-600 hover:text-green-400 transition">

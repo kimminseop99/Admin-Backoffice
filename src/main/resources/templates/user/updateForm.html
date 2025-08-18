@@ -1,0 +1,33 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content" class="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-gray-800 rounded-lg">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">회원 정보 수정</h1>
+
+    <form th:action="@{/user/update}" th:object="${userUpdateForm}" method="post" class="space-y-4">
+
+        <div>
+            <label class="block mb-1 text-gray-700 dark:text-gray-300">이름</label>
+            <input type="text" th:field="*{fullName}"
+                   class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"/>
+            <p th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="text-red-600 text-sm mt-1"></p>
+        </div>
+
+        <div>
+            <label class="block mb-1 text-gray-700 dark:text-gray-300">새 비밀번호</label>
+            <input type="password" th:field="*{password1}"
+                   class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"/>
+            <p th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" class="text-red-600 text-sm mt-1"></p>
+        </div>
+
+        <div>
+            <label class="block mb-1 text-gray-700 dark:text-gray-300">비밀번호 확인</label>
+            <input type="password" th:field="*{password2}"
+                   class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"/>
+            <p th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" class="text-red-600 text-sm mt-1"></p>
+        </div>
+
+        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mt-4">변경</button>
+
+        <div th:if="${message}" class="text-green-500 mt-2" th:text="${message}"></div>
+    </form>
+</div>
+</html>
