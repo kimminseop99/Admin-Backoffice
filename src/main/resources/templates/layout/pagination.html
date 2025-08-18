@@ -2,12 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="pagination(pagination)">
     <div class="inline-flex space-x-2">
-        <a th:href="@{__${pagination.number > 0 ? '?page=' + ${pagination.number - 1} : ''}__}"
-           class="px-3 py-1 border rounded-md hover:bg-green-800" th:if="${pagination.hasPrevious()}">이전</a>
+        <a th:if="${pagination.hasPrevious()}"
+           th:href="@{'?page=' + (${pagination.number} - 1)}"
+           class="px-3 py-1 border rounded-md hover:bg-green-800">이전</a>
 
-        <span th:text="${pagination.number + 1} + ' / ' + ${pagination.totalPages}"></span>
+        <span class="px-3 py-1 border rounded-md bg-green-700 text-black"
+              th:text="${pagination.number + 1} + ' / ' + ${pagination.totalPages}"></span>
 
-        <a th:href="@{__${pagination.number + 1 < pagination.totalPages ? '?page=' + ${pagination.number + 1} : ''}__}"
-           class="px-3 py-1 border rounded-md hover:bg-green-800" th:if="${pagination.hasNext()}">다음</a>
+        <a th:if="${pagination.hasNext()}"
+           th:href="@{'?page=' + (${pagination.number} + 1)}"
+           class="px-3 py-1 border rounded-md hover:bg-green-800">다음</a>
     </div>
 </div>
+

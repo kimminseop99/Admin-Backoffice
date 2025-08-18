@@ -14,7 +14,10 @@
                 <input type="file" name="imageFile"
                        class="block w-full text-sm text-green-400 bg-black border border-green-600 rounded-md" />
                 <div th:if="${product.imageFilename}" class="mt-2">
-                    <img th:src="@{'/uploads/' + ${product.imageFilename}}" class="w-32 border border-green-700" alt="이미지 미리보기" />
+                    <img th:if="${product.imageFilename}"
+                         th:src="@{/uploads/{file}(file=${product.imageFilename})}"
+                         class="w-32 border border-green-700"
+                         alt="이미지 미리보기" />
                 </div>
             </div>
 

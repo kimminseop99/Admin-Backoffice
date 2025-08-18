@@ -28,17 +28,22 @@ public class ProductController {
 
     // 상품 목록 조회 (페이징, 검색, 필터링)
     @GetMapping
-    public String listProducts(@RequestParam(value = "keyword",required = false) String keyword,
-                               @RequestParam(value = "categoryId",required = false) Long categoryId,
-                               @PageableDefault(size = 10) Pageable pageable,
+    public String listProducts(@RequestParam(value = "keyword", required = false) String keyword,
+                               @RequestParam(value = "categoryId", required = false) Long categoryId,
                                Model model) {
-        Page<Product> page = productService.getProducts(keyword, categoryId, pageable);
-        model.addAttribute("products", page);
+
+        List<Product> products = productService.getAllProductsWithCategory(keyword, categoryId);
+
+        model.addAttribute("products", products); // Page -> List
         model.addAttribute("keyword", keyword);
         model.addAttribute("categoryId", categoryId);
         model.addAttribute("categories", productService.getAllCategories());
+
         return "admin/product/list";
     }
+
+
+
 
     // 상품 등록 폼
     @GetMapping("/new")
@@ -87,13 +92,28 @@ public class ProductController {
             model.addAttribute("categories", productService.getAllCategories());
             return "admin/product/form";
         }
+
+        // DB에서 기존 상품 가져오기
+        Product existingProduct = productService.getProductById(id);
+
+        // 이미지가 새로 업로드 되었으면 덮어쓰기
         if (imageFile != null && !imageFile.isEmpty()) {
             String filename = fileStorageService.store(imageFile);
-            product.setImageFilename(filename);
+            existingProduct.setImageFilename(filename);
         }
-        productService.updateProduct(id, product);
+
+        // 나머지 필드 업데이트
+        existingProduct.setName(product.getName());
+        existingProduct.setDescription(product.getDescription());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setStock(product.getStock());
+        existingProduct.setCategoryId(product.getCategoryId());
+
+        productService.updateProduct(id, existingProduct);
+
         return "redirect:/admin/products";
     }
+
 
     // 상품 삭제 처리
     @PostMapping("/delete/{id}")

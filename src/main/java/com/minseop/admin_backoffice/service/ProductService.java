@@ -98,4 +98,18 @@ public class ProductService {
     public List<Product> getTopRatedProducts(int limit) {
         return productRepository.findAll(PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC,"averageRating"))).getContent();
     }
+
+    public List<Product> getAllProductsWithCategory(String keyword, Long categoryId) {
+        if (keyword == null && categoryId == null) {
+            return productRepository.findAll(); // 전체 상품 조회
+        }
+
+        // 조건에 따른 필터링
+        return productRepository.findAll().stream()
+                .filter(p -> (keyword == null || p.getName().contains(keyword)) &&
+                        (categoryId == null || (p.getCategory() != null && p.getCategory().getId().equals(categoryId))))
+                .toList();
+    }
+
+
 }
