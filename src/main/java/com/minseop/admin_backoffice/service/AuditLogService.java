@@ -13,10 +13,11 @@ import org.springframework.stereotype.Service;
 public class AuditLogService {
     private final AuditLogRepository auditLogRepository;
 
-    public void logChange(Long adminId, Long targetUserId, AuditAction action, String beforeValue, String afterValue, String adminUsername) {
+    public void logChange(Long adminId, Long targetUserId, String targetUserUsername, AuditAction action, String beforeValue, String afterValue, String adminUsername) {
         AuditLog log = AuditLog.builder()
                 .adminId(adminId)
                 .targetUserId(targetUserId)
+                .targetUserUsername(targetUserUsername)
                 .action(action)
                 .beforeValue(beforeValue)
                 .afterValue(afterValue)

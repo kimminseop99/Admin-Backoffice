@@ -87,6 +87,7 @@ public class UserService {
             auditLogService.logChange(
                     currentAdmin.getId(),
                     targetUser.getId(),
+                    targetUser.getUsername(),
                     AuditAction.STATUS_CHANGE,
                     targetUser.getStatus().name(),
                     newStatus.name(),
@@ -99,6 +100,7 @@ public class UserService {
             auditLogService.logChange(
                     currentAdmin.getId(),
                     targetUser.getId(),
+                    targetUser.getUsername(),
                     AuditAction.ROLE_CHANGE,
                     targetUser.getRole().name(),
                     newRole.name(),

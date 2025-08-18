@@ -25,6 +25,8 @@ public class AuditLog {
 
     private Long targetUserId;  // 변경 대상 사용자
 
+    private String targetUserUsername;
+
     @Enumerated(EnumType.STRING)
     private AuditAction action;  // ROLE_CHANGE, STATUS_CHANGE 등
 
