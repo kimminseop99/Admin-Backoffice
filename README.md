@@ -65,9 +65,9 @@
 
 ## 🗃️ ER 다이어그램
 
-![ER Diagram](src/main/resources/static/images/functionImage/ARTAUCTION-ER-DIAGRAM.png)
+<img width="1858" height="912" alt="Image" src="https://github.com/user-attachments/assets/7fdd28e3-40c3-42b1-a39c-749f7cca4493" />
 
-## 📑 사용자 요구사항 명세서 [Notion](https://www.notion.so/aa74ac5296904e0d8b3bd8b5961408c6?v=bea59306a5964c9fbf44a8220f6476aa&pvs=4 "사용자 요구사항 명세서")
+## 📑 사용자 요구사항 명세서 [[Notion](https://www.notion.so/aa74ac5296904e0d8b3bd8b5961408c6?v=bea59306a5964c9fbf44a8220f6476aa&pvs=4 "사용자 요구사항 명세서")](https://www.notion.so/2386c7db6df980b09930c84a8a204c87?v=2386c7db6df981458db7000c848514d3)
 
 ![사용자 요구사항 명세서](src/main/resources/static/images/functionImage/ARTAUCTION-요구사항정의서.png)
 
