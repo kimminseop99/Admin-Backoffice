@@ -63,6 +63,16 @@
 
 ---
 
+## 🗃️ ER 다이어그램
+
+![ER Diagram](src/main/resources/static/images/functionImage/ARTAUCTION-ER-DIAGRAM.png)
+
+## 📑 사용자 요구사항 명세서 [Notion](https://www.notion.so/aa74ac5296904e0d8b3bd8b5961408c6?v=bea59306a5964c9fbf44a8220f6476aa&pvs=4 "사용자 요구사항 명세서")
+
+![사용자 요구사항 명세서](src/main/resources/static/images/functionImage/ARTAUCTION-요구사항정의서.png)
+
+
+
 ## 👤 주요 기능
 
 ### 관리자 기능
