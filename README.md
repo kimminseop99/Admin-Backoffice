@@ -1,7 +1,7 @@
 # 🖥️ Backoffice 관리 시스템
 
 <p align="center">
-   <img src="https://github.com/user-attachments/assets/20fbcf40-f860-44d5-bdee-c29ab3f00720" alt="Backoffice 로고" width="400"/>
+   <img width="1500" height="1500" alt="Image" src="https://github.com/user-attachments/assets/dfd56ea3-885e-4205-a466-0665cdf77552" />
 </p>
 
 ---
