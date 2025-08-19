@@ -1,8 +1,11 @@
 spring:
   config:
     import: optional:application-secret.yml
-  profiles:
-    default: dev   # 기본 프로필은 dev
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 server:
   port: 8080
@@ -10,39 +13,3 @@ server:
 file:
   upload-dir: uploads
 
----
-# ✅ 개발 환경 (DDL 자동 업데이트, SQL 보여주기)
-spring:
-  config:
-    activate:
-      on-profile: dev
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-
-  sql:
-    init:
-      mode: never   # dev에서는 schema.sql, data.sql 자동 실행 안 함
-
----
-# ✅ 초기화 환경 (빈 DB에 schema.sql + data.sql 밀어넣을 때 사용)
-spring:
-  config:
-    activate:
-      on-profile: initdb
-
-  jpa:
-    hibernate:
-      ddl-auto: none   # 스키마는 우리가 제공하는 schema.sql 사용
-    show-sql: true
-
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:db/schema.sql
-      data-locations: classpath:db/data.sql
