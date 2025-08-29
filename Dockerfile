@@ -8,9 +8,6 @@ WORKDIR /app
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
 
-# 정적 이미지 파일 복사 (resources/static/images)
-COPY src/main/resources/static/images /app/static/images
-
 # 업로드 디렉토리 복사
 COPY uploads /app/uploads
 
