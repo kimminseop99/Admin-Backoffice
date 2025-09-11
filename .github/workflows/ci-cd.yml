@@ -56,11 +56,11 @@
              restore-keys: |
                ${{ runner.os }}-gradle-
 
-         # 4. Gradle 실행 권한 부여 (Linux에서 필요)
+         # 4. Gradle 실행 권한 부여
          - name: Grant execute permission to Gradle wrapper
            run: chmod +x gradlew
 
-         # 5. Gradle 빌드 (테스트 제외)
+         # 5. Gradle 빌드
          - name: Build with Gradle
            run: ./gradlew clean build -x test
 
