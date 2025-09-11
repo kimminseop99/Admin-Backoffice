@@ -15,12 +15,8 @@
   #    - Workflow 파일(.github/workflows/ci-cd.yml)이
   #      프로젝트 자동화의 엔진 역할을 담당
 
-
-
-
    name: CI/CD Workflow
 
-   # main 브랜치 push 혹은 pull_request 시 동작
    on:
      push:
        branches:
