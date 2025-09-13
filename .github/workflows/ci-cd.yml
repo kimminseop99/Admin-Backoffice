@@ -1,6 +1,6 @@
 # CI/CD Workflow 관련 설명
 # 이 워크플로우는 코드를 자동으로 빌드하고,
-# Docker 이미지를 생성하며, Docker Hub에 푸시한 후,
+# Docker 이미지를 생성하며, Docker Hub에 푸시한 후
 # 최종적으로 원격 서버에 배포하는 과정을 자동화합니다.
 name: CI/CD Workflow
 
