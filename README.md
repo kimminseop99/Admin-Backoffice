@@ -67,12 +67,14 @@
 
 <img width="1858" height="912" alt="Image" src="https://github.com/user-attachments/assets/7fdd28e3-40c3-42b1-a39c-749f7cca4493" />
 
+---
 ## 📑 사용자 요구사항 명세서 [[Notion](https://www.notion.so/2386c7db6df980b09930c84a8a204c87?v=2386c7db6df981458db7000c848514d3 "사용자 요구사항 명세서")]
 
 
-
+---
 
 ## 🚀 CI/CD 파이프라인 구축 
+
 파이프라인 구성 요소
 -
 지속적 통합 (CI)
