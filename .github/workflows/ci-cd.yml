@@ -16,10 +16,7 @@ jobs:
   build-and-deploy:
     name: Build, Dockerize & Deploy
     runs-on: ubuntu-latest
-    
-    # 이 작업은 secrets에 정의된 변수들을 사용합니다.
-    # SECRETS를 GitHub 저장소의 Settings > Secrets and variables > Actions에서 설정해주세요.
-    # DOCKER_USERNAME, DOCKER_PASSWORD, SSH_HOST, SSH_USERNAME, SSH_PRIVATE_KEY
+
     steps:
       # 1. 저장소 체크아웃
       - name: Checkout repository
